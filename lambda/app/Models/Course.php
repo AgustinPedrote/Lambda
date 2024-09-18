@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Enums\CourseStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Course extends Model
 {
@@ -32,20 +34,34 @@ class Course extends Model
         'status' => CourseStatus::class,
     ];
 
+    # Accesor
+    protected function image(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->image_path ? Storage::url($this->image_path) : asset('storage/no-image.jpg');
+            }
+        );
+    }
+
     # Relación uno a muchos (inversa)
-    public function teacher(){
+    public function teacher()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function level(){
+    public function level()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function price(){
+    public function price()
+    {
         return $this->belongsTo(User::class);
     }
 }
