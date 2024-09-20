@@ -27,11 +27,13 @@ class Course extends Model
         'level_id',
         'category_id',
         'price_id',
+        'published_at',
     ];
 
     # De esta forma solo permitirá los valores referentes en CourseStatus.php
     protected $casts = [
         'status' => CourseStatus::class,
+        'published_at' => 'datetime',
     ];
 
     # Accesor

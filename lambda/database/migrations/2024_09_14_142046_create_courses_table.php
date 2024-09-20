@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreignId('level_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('price_id')->constrained();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }
