@@ -42,6 +42,9 @@ class Course extends Model
         return new Attribute(
             get: function () {
                 return $this->image_path ? Storage::url($this->image_path) : asset('storage/no-image.jpg');
+
+                // Usar APP_URL para construir la URL correctamente
+                return config('app.url') . '/storage/courses/images/' . basename($this->image_path);
             }
         );
     }
@@ -54,16 +57,16 @@ class Course extends Model
 
     public function level()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Level::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function price()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Price::class);
     }
 }

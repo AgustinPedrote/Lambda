@@ -48,6 +48,9 @@
     @stack('modals')
 
     @livewireScripts
+
+    {{-- Definir un lugar en la plantilla donde se agregarán bloques de contenido o scripts que fueron previamente "empujados" con @push('') --}}
+    @stack('js')
 </body>
 
 </html>

@@ -37,7 +37,7 @@
 
                         <hr class="mt-2 mb-6">
 
-                        <x-validation-errors />
+                        <x-validation-errors class="mb-4" />
 
                         <div class="mb-4">
                             <x-label value="Título del curso" class="mb-1" />
@@ -56,11 +56,15 @@
                         @endempty
 
                         <div class="mb-4">
-                            <x-label value="Descripción del curso" class="mb-1" />
+                            <x-label value="Resumen" class="mb-1" />
 
-                            <x-textarea name="summary" class="w-full">
-                                {{ old('summary', $course->summary) }}
-                            </x-textarea>
+                            <x-textarea name="summary" class="w-full">{{ old('summary', $course->summary) }}</x-textarea>
+                        </div>
+
+                        <div class="mb-4 ckeditor">
+                            <x-label value="Descripción" class="mb-1" />
+
+                            <x-textarea id="editor" name="description" class="w-full">{{ old('description', $course->description) }}</x-textarea>
                         </div>
 
                         <div class="grid md:grid-cols-3 gap-4 mb-8">
@@ -76,8 +80,6 @@
                                         </option>
                                     @endforeach
                                 </x-select>
-
-
                             </div>
 
                             <div>
@@ -151,5 +153,18 @@
             </div>
         </div>
     </x-container>
+
+    <!-- Incluir e inicializar el script de CKEditor 5 desde el CDN -->
+    @push('js')
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+        <script>
+            ClassicEditor
+                .create( document.querySelector( '#editor' ) )
+                .catch( error => {
+                    console.error( error );
+                } );
+        </script>
+    @endpush
 
 </x-instructor-layout>
