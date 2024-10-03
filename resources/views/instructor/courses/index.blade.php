@@ -14,7 +14,7 @@
 
         <ul>
             @forelse ($courses as $course)
-                <li class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <li class="bg-white rounded-lg shadow-lg overflow-hidden mb-4">
                     <a href="{{ route('instructor.courses.edit', $course) }}" class="md:flex">
                         <figure class="flex-shrink-0">
                             <img src="{{ $course->image }}"

@@ -13,3 +13,7 @@ Route::redirect('/', '/instructor/courses')
 
 /* Cursos */
 Route::resource('courses', CourseController::class);
+
+/* Video */
+Route::get('courses/{course}/video', [CourseController::class, 'video'])
+    ->name('courses.video');

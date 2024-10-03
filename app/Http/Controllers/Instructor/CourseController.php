@@ -105,7 +105,7 @@ class CourseController extends Controller
 
         $course->update($data);
 
-        session()->flash('flash.banner', 'El curso se actualizó con exito');
+        session()->flash('flash.banner', 'El curso se actualizó con exito'); // Variable de sesión de components/banner
 
         return redirect()->route('instructor.courses.edit', $course);
     }
@@ -116,5 +116,10 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         //
+    }
+
+    public function video(Course $course)
+    {
+        return view('instructor.courses.video', compact('course'));
     }
 }
