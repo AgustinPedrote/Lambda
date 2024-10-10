@@ -4,7 +4,7 @@
 </svg> --}}
 
 <img {{ $attributes->merge([
-    'src' => '/storage/lambda_logo.jpg',
+    'src' => '/img/lambda_logo.jpg',
     'alt' => '',
     'class' => ''
     ]) }}/>

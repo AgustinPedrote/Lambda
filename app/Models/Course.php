@@ -41,7 +41,7 @@ class Course extends Model
     {
         return new Attribute(
             get: function () {
-                return $this->image_path ? Storage::url($this->image_path) : asset('storage/no-image.jpg');
+                return $this->image_path ? Storage::url($this->image_path) : asset('img/no-image.jpg');
 
                 // Usar APP_URL para construir la URL correctamente
                 return config('app.url') . '/storage/courses/images/' . basename($this->image_path);
