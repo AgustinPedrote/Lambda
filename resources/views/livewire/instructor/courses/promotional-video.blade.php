@@ -18,7 +18,7 @@
             @endif
         </div>
         <div class="col-span-1">
-            <form wire:submit="save">
+            {{-- <form wire:submit="save">
                 <p class="mb-4">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime quas commodi iusto assumenda labore
                     obcaecati, soluta molestias velit dolore ducimus, dicta placeat ratione rem a et minima? Nisi,
@@ -26,6 +26,27 @@
                 </p>
 
                 <x-progress-indicators wire:model="video" />
+
+                <div class="flex justify-end mt-4">
+                    <x-button>
+                        Subir video
+                    </x-button>
+                </div>
+
+                <x-validation-errors />
+            </form> --}}
+
+            <form action="{{ route('instructor.courses.uploadVideo', $course) }}" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+
+                <p class="mb-4">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime quas commodi iusto assumenda labore
+                    obcaecati, soluta molestias velit dolore ducimus, dicta placeat ratione rem a et minima? Nisi,
+                    necessitatibus dicta.
+                </p>
+
+                <input type="file" name="video" id="video" class="mt-1 block w-full" accept="video/*" required>
 
                 <div class="flex justify-end mt-4">
                     <x-button>

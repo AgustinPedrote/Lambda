@@ -17,3 +17,8 @@ Route::resource('courses', CourseController::class);
 /* Video */
 Route::get('courses/{course}/video', [CourseController::class, 'video'])
     ->name('courses.video');
+
+/* Subida de video promocional */
+Route::post('courses/{course}/upload-video', [CourseController::class, 'uploadVideo'])
+    ->name('courses.uploadVideo');
+

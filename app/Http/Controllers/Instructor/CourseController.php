@@ -122,4 +122,22 @@ class CourseController extends Controller
     {
         return view('instructor.courses.video', compact('course'));
     }
+
+    public function uploadVideo(Request $request, Course $course)
+    {
+        $request->validate([
+            'video' => 'required|file'
+        ]);
+
+        // Si ya existe un video, lo borramos
+        if ($course->video_path) {
+            Storage::delete($course->video_path);
+        }
+
+        // Guardamos el nuevo video y almacenamos la ruta
+        $course->video_path = $request->file('video')->store('courses/promotional-videos');
+        $course->save();
+
+        return redirect()->route('instructor.courses.video', $course)->with('success', 'Video subido exitosamente.');
+    }
 }

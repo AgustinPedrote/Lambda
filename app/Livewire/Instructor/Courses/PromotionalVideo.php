@@ -1,5 +1,7 @@
 <?php
 
+/* No se utiliza este archivo, la subida del video promocional se hace con el controlador */
+
 namespace App\Livewire\Instructor\Courses;
 
 use Livewire\Attributes\Validate;
