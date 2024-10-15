@@ -14,11 +14,15 @@ Route::redirect('/', '/instructor/courses')
 /* Cursos */
 Route::resource('courses', CourseController::class);
 
-/* Video */
+/* Videos */
 Route::get('courses/{course}/video', [CourseController::class, 'video'])
     ->name('courses.video');
 
 /* Subida de video promocional */
 Route::post('courses/{course}/upload-video', [CourseController::class, 'uploadVideo'])
     ->name('courses.uploadVideo');
+
+/* Goals */
+Route::get('courses/{course}/goals', [CourseController::class, 'goals'])
+    ->name('courses.goals');
 

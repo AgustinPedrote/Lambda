@@ -140,4 +140,9 @@ class CourseController extends Controller
 
         return redirect()->route('instructor.courses.video', $course)->with('success', 'Video subido exitosamente.');
     }
+
+    public function goals(Course $course)
+    {
+        return view('instructor.courses.goals', compact('course'));
+    }
 }
