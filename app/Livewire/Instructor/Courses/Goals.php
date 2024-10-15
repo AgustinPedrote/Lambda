@@ -34,6 +34,25 @@ class Goals extends Component
         $this->reset('name');
     }
 
+    public function update()
+    {
+        $this->validate([
+            'goals.*.name' => 'required|string|max:255'
+        ]);
+
+        foreach ($this->goals as $goal){
+            Goal::find($goal['id'])->update([
+                'name' => $goal['name']
+            ]);
+        }
+
+        $this->dispatch('swal', [
+            'icon' => 'success',
+            'title' => '¡Bien hecho!',
+            'text' => 'Las metas se han actualizado correctamente'
+        ]);
+    }
+
     public function render()
     {
         return view('livewire.instructor.courses.goals');

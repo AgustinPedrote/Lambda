@@ -51,6 +51,17 @@
 
     @livewireScripts
 
+    {{-- Sweetalert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        Livewire.on('swal', data => {
+
+            Swal.fire(data[0]);
+
+        });
+    </script>
+
     {{-- Definir un lugar en la plantilla donde se agregarán bloques de contenido o scripts que fueron previamente "empujados" con @push('') --}}
     @stack('js')
 </body>

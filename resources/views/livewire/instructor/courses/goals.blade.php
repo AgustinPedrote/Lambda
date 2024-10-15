@@ -1,6 +1,6 @@
 <div>
 
-    <ul class="space-y-2 mb-8">
+    <ul class="space-y-2 mb-4">
         @foreach ($goals as $index => $goal)
             <li wire:key="goal-{{ $goal['id'] }}">
 
@@ -9,6 +9,12 @@
             </li>
         @endforeach
     </ul>
+
+    <div class="flex justify-end mb-8">
+        <x-button wire:click="update">
+            Actualizar
+        </x-button>
+    </div>
 
     <form wire:submit="store">
         <div class="bg-gray-100 rounded-lg shadow-lg p-6">
