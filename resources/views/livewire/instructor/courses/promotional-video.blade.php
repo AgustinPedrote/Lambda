@@ -1,4 +1,8 @@
 <div>
+    @push('css')
+        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    @endpush
+
     <h1 class="text-2xl font-semibold">
         Video promocional
     </h1>
@@ -8,7 +12,7 @@
     <div class="grid grid-cols-2 gap-6">
         <div class="col-span-1">
             @if ($course->video_path)
-                <video controls class="aspect-video">
+                <video id="player" playsinline controls data-poster="{{ $course->image }}" class="aspect-video">
                     <source src="{{ Storage::url($course->video_path) }}">
                 </video>
             @else
@@ -58,4 +62,12 @@
             </form>
         </div>
     </div>
+
+    @push('js')
+        <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
+        <script>
+            const player = new Plyr('#player');
+        </script>
+    @endpush
 </div>
