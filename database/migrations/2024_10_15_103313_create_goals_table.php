@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('course_id')
                 ->contrained()
                 ->onDelete('cascade');
+            $table->integer('position');
             $table->timestamps();
         });
     }

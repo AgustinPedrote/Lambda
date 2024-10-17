@@ -17,7 +17,10 @@ class Goals extends Component
 
     public function mount()
     {
-        $this->goals = Goal::where('course_id', $this->course->id)->get()->toArray();
+        $this->goals = Goal::where('course_id', $this->course->id)
+            ->orderBy('position', 'asc')
+            ->get()
+            ->toArray();
     }
 
     public function store()
@@ -29,7 +32,10 @@ class Goals extends Component
         ]);
 
         # Consulta en la BBDD y refrescas la propiedad para que así se agrege la meta sin necesidad de refrescar la página.
-        $this->goals = Goal::where('course_id', $this->course->id)->get()->toArray();
+        $this->goals = Goal::where('course_id', $this->course->id)
+            ->orderBy('position', 'asc')
+            ->get()
+            ->toArray();
 
         $this->reset('name');
     }
@@ -40,7 +46,7 @@ class Goals extends Component
             'goals.*.name' => 'required|string|max:255'
         ]);
 
-        foreach ($this->goals as $goal){
+        foreach ($this->goals as $goal) {
             Goal::find($goal['id'])->update([
                 'name' => $goal['name']
             ]);
@@ -51,6 +57,33 @@ class Goals extends Component
             'title' => '¡Bien hecho!',
             'text' => 'Las metas se han actualizado correctamente'
         ]);
+    }
+
+    public function destroy($goalId)
+    {
+        Goal::find($goalId)->delete();
+
+        $this->goals = Goal::where('course_id', $this->course->id)
+            ->orderBy('position', 'asc')
+            ->get()
+            ->toArray();
+    }
+
+    public function sortGoals($data)
+    {
+        /* dd($data); */
+
+        foreach ($data as $index => $goalId) {
+            Goal::find($goalId)->update([
+                'position' => $index + 1
+            ]);
+        }
+
+        # Refrescar la información de las metas
+        $this->goals = Goal::where('course_id', $this->course->id)
+            ->orderBy('position', 'asc')
+            ->get()
+            ->toArray();
     }
 
     public function render()
