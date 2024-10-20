@@ -2,23 +2,23 @@
 
 namespace App\Livewire\Instructor\Courses;
 
-use App\Models\Goal;
+use App\Models\Requirement;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Symfony\Contracts\Service\Attribute\Required;
 
-class Goals extends Component
+class Requirements extends Component
 {
     public $course;
 
-    public $goals;
+    public $requirements;
 
     #[Validate('required|string|max:255')]
     public $name;
 
-    # Rescatamos todas las metas
     public function mount()
     {
-        $this->goals = Goal::where('course_id', $this->course->id)
+        $this->requirements = Requirement::where('course_id', $this->course->id)
             ->orderBy('position', 'asc')
             ->get()
             ->toArray();
@@ -28,12 +28,12 @@ class Goals extends Component
     {
         $this->validate();
 
-        $this->course->goals()->create([
+        $this->course->requirements()->create([
             'name' => $this->name
         ]);
 
         # Consulta en la BBDD y refrescas la propiedad para que así se agrege la meta sin necesidad de refrescar la página.
-        $this->goals = Goal::where('course_id', $this->course->id)
+        $this->requirements = Requirement::where('course_id', $this->course->id)
             ->orderBy('position', 'asc')
             ->get()
             ->toArray();
@@ -44,44 +44,44 @@ class Goals extends Component
     public function update()
     {
         $this->validate([
-            'goals.*.name' => 'required|string|max:255'
+            'requirements.*.name' => 'required|string|max:255'
         ]);
 
-        foreach ($this->goals as $goal) {
-            Goal::find($goal['id'])->update([
-                'name' => $goal['name']
+        foreach ($this->requirements as $requirement) {
+            Requirement::find($requirement['id'])->update([
+                'name' => $requirement['name']
             ]);
         }
 
         $this->dispatch('swal', [
             'icon' => 'success',
             'title' => '¡Bien hecho!',
-            'text' => 'Las metas se han actualizado correctamente'
+            'text' => 'Los requerimientos se han actualizado correctamente'
         ]);
     }
 
-    public function destroy($goalId)
+    public function destroy($requiredId)
     {
-        Goal::find($goalId)->delete();
+        Requirement::find($requiredId)->delete();
 
-        $this->goals = Goal::where('course_id', $this->course->id)
+        $this->requirements = Requirement::where('course_id', $this->course->id)
             ->orderBy('position', 'asc')
             ->get()
             ->toArray();
     }
 
-    public function sortGoals($data)
+    public function sortRequirements($data)
     {
         /* dd($data); */
 
-        foreach ($data as $index => $goalId) {
-            Goal::find($goalId)->update([
+        foreach ($data as $index => $requirementId) {
+            Requirement::find($requirementId)->update([
                 'position' => $index + 1
             ]);
         }
 
         # Refrescar la información de las metas
-        $this->goals = Goal::where('course_id', $this->course->id)
+        $this->requirements = Requirement::where('course_id', $this->course->id)
             ->orderBy('position', 'asc')
             ->get()
             ->toArray();
@@ -89,6 +89,6 @@ class Goals extends Component
 
     public function render()
     {
-        return view('livewire.instructor.courses.goals');
+        return view('livewire.instructor.courses.requirements');
     }
 }

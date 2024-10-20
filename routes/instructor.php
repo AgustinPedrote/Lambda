@@ -22,7 +22,11 @@ Route::get('courses/{course}/video', [CourseController::class, 'video'])
 Route::post('courses/{course}/upload-video', [CourseController::class, 'uploadVideo'])
     ->name('courses.uploadVideo');
 
-/* Goals */
+/* Metas */
 Route::get('courses/{course}/goals', [CourseController::class, 'goals'])
     ->name('courses.goals');
+
+/* Requerimientos */
+Route::get('courses/{course}/requirements', [CourseController::class, 'requirements'])
+    ->name('courses.requirements');
 
