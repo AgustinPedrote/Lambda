@@ -22,6 +22,11 @@
             'url' => route('instructor.courses.requirements', $course),
             'active' => request()->routeIs('instructor.courses.requirements'),
         ],
+        [
+            'name' => 'Currículum',
+            'url' => route('instructor.courses.curriculum', $course),
+            'active' => request()->routeIs('instructor.courses.curriculum'),
+        ],
     ];
 @endphp
 
