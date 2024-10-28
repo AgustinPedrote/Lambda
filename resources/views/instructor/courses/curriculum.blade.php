@@ -7,7 +7,7 @@
 
     <x-instructor.course-sidebar :course="$course">
 
-        {{-- @livewire('instructor.courses.curriculum', ['course' => $course]) --}}
+        @livewire('instructor.courses.manage-sections', ['course' => $course], key('manage-sections'))
 
     </x-instructor.course-sidebar>
 
