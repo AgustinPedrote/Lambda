@@ -9,10 +9,21 @@ class ManageSections extends Component
 {
     public $course;
     public $name;
-    public $sections;
+    public $sections; # Es el encargado de mostrar las secciones
+
+    public $sectionEdit = [
+        'id' => null,
+        'name' => null
+    ];
 
     # Se ejecuta cada vez que inicio el componente
     public function mount()
+    {
+        $this->getSections();
+    }
+
+    # Para actualizar la información
+    public function getSections()
     {
         $this->sections = Section::where('course_id', $this->course->id)
             ->orderBy('position', 'asc')
@@ -29,7 +40,49 @@ class ManageSections extends Component
             'name' => $this->name
         ]);
 
+        $this->getSections();
+
         $this->reset('name');
+    }
+
+    public function edit(Section $section)
+    {
+        $this->sectionEdit = [
+            'id' => $section->id,
+            'name' => $section->name
+        ];
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'sectionEdit.name' => 'required'
+        ]);
+
+        Section::find($this->sectionEdit['id'])->update([
+            'name' => $this->sectionEdit['name']
+        ]);
+
+        $this->reset('sectionEdit');
+
+        $this->getSections();
+    }
+
+    public function destroy(Section $section)
+    {
+        $section->delete();
+
+        $this->getSections();
+
+        # Disparar alerta
+        $this->dispatch(
+            'swal',
+            [
+                "icon" => "success",
+                "title" => "¡Eliminado!",
+                " text" => "La sección ha sido eliminada",
+            ]
+        );
     }
 
     public function render()
