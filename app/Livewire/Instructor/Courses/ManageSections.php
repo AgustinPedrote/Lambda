@@ -16,6 +16,8 @@ class ManageSections extends Component
         'name' => null
     ];
 
+    public $sectionPositionCreate = [];
+
     # Se ejecuta cada vez que inicio el componente
     public function mount()
     {
@@ -43,6 +45,29 @@ class ManageSections extends Component
         $this->getSections();
 
         $this->reset('name');
+    }
+
+    public function storePosition($sectionId)
+    {
+        $this->validate([
+            "sectionPositionCreate.{$sectionId}.name" => 'required'
+        ]);
+
+        $position = Section::find($sectionId)->position;
+        Section::where('course_id', $this->course->id)
+            ->where('position', '>=', $position)
+            ->increment('position');
+
+        $this->course->sections()->create([
+            'name' => $this->sectionPositionCreate[$sectionId]['name'],
+            'position' => $position
+        ]);
+
+        $this->getSections();
+
+        $this->reset("sectionPositionCreate"); /* Resetea todo */
+
+        $this->dispatch('close-section-position-create');
     }
 
     public function edit(Section $section)
