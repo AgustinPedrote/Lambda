@@ -19,5 +19,11 @@ class Section extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    # Relación uno a muchos
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
 }
 
