@@ -55,6 +55,18 @@
                                 @include('instructor.sections.show')
                             @endif
 
+                            <!-- Contenedor de cada lección -->
+                            <div class="mt-4">
+                                @livewire(
+                                    'instructor.courses.manage-lessons',
+                                    [
+                                        'section' => $section,
+                                        'lessons' => $section->lessons,
+                                    ],
+                                    key('section-lessons-' . $section->id)
+                                )
+                            </div>
+
                         </div>
 
                     </li>
