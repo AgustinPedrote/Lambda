@@ -88,7 +88,7 @@
                     Cancelar
                 </x-danger-button>
 
-                <x-button class="ml-2">
+                <x-button wire:click="store" class="ml-2">
                     Guardar
                 </x-button>
             </div>
