@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\VideoUploaded;
+use App\Listeners\VideoUploaded\ProcessLessonVideo;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+
+/* Laravel utiliza el EventServiceProvider para enlazar eventos y oyentes */
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +21,11 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        // Registra el evento y el oyente
+        VideoUploaded::class => [
+            ProcessLessonVideo::class,
         ],
     ];
 
