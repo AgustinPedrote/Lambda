@@ -15,7 +15,7 @@ class ManageLessons extends Component
     use WithFileUploads;
 
     public $section;
-    public $lesson;
+    public $lessons;
 
     public $video, $url;
     public $lessonCreate = [
@@ -26,6 +26,19 @@ class ManageLessons extends Component
         /* 'video_path' => null, */
         'video_original_name' => null
     ];
+
+    public $lessonEdit = [
+        'id' => null,
+        'name' => null,
+    ];
+
+    /* Refrescar información de lecciones */
+    public function getLessons()
+    {
+        $this->lessons = Lesson::where('section_id', $this->section->id)
+            ->orderBy('position', 'asc')
+            ->get();
+    }
 
     /* Al crear una nueva lección se generan las reglas dinámicamente */
     public function rules()
@@ -65,6 +78,42 @@ class ManageLessons extends Component
         }
 
         $this->reset(['url', 'lessonCreate']);
+
+        $this->getLessons();
+    }
+
+    public function edit($lessonId)
+    {
+        $lesson = Lesson::find($lessonId);
+
+        $this->lessonEdit = [
+            'id' => $lesson->id,
+            'name' => $lesson->name,
+        ];
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'lessonEdit.name' => ['required'],
+        ]);
+
+        Lesson::find($this->lessonEdit['id'])->update([
+            'name' => $this->lessonEdit['name'],
+        ]);
+
+        $this->reset('lessonEdit');
+
+        /* Para que se vean reflejados los cambios sin necesidad de refrescar la página */
+        $this->getLessons();
+    }
+
+    public function destroy($lessonId)
+    {
+        $lesson = Lesson::find($lessonId);
+        $lesson->delete();
+
+        $this->getLessons();
     }
 
     /* El evento se recepciona aquí */
