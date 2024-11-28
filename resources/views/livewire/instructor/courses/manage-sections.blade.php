@@ -62,8 +62,10 @@
                                     [
                                         'section' => $section,
                                         'lessons' => $section->lessons,
+                                        'orderLessons' => $orderLessons,
                                     ],
-                                    key('section-lessons-' . $section->id)
+                                    key('section-lessons-' . $section->id . $orderLessons->join('-')) /* Se modifica la llave cada vez que cambia $orderLessons
+                                     y cuando se modifica se vuelve a renderizar la página con los nuevos valores */
                                 )
                             </div>
 

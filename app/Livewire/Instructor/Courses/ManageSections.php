@@ -3,6 +3,7 @@
 namespace App\Livewire\Instructor\Courses;
 
 use App\Models\Section;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ManageSections extends Component
@@ -18,19 +19,30 @@ class ManageSections extends Component
 
     public $sectionPositionCreate = [];
 
+    public $orderLessons;
+
     # Se ejecuta cada vez que inicio el componente
     public function mount()
     {
         $this->getSections();
     }
 
+    #[On('refreshOrderLessons')]
     # Para actualizar la información
     public function getSections()
     {
         $this->sections = Section::where('course_id', $this->course->id)
-            ->with('lessons')
+            ->with(['lessons' => function ($query) { /* Función callback */
+                $query->orderBy('position', 'asc');
+            }])
             ->orderBy('position', 'asc')
             ->get();
+
+        /* Muestra solo la información de lessons */
+        $this->orderLessons = $this->sections
+            ->pluck('lessons')
+            ->collapse() /* Combinar las lecciones de todos los arrays en uno */
+            ->pluck('id');
     }
 
     public function store()

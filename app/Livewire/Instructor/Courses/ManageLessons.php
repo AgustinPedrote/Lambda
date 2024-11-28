@@ -16,6 +16,7 @@ class ManageLessons extends Component
 
     public $section;
     public $lessons;
+    public $orderLessons;
 
     public $video, $url;
     public $lessonCreate = [
@@ -80,6 +81,8 @@ class ManageLessons extends Component
         $this->reset(['url', 'lessonCreate']);
 
         $this->getLessons();
+
+        $this->dispatch('refreshOrderLessons');
     }
 
     public function edit($lessonId)
@@ -114,6 +117,8 @@ class ManageLessons extends Component
         $lesson->delete();
 
         $this->getLessons();
+
+        $this->dispatch('refreshOrderLessons');
     }
 
     /* El evento se recepciona aquí */
