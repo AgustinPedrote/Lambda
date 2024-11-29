@@ -19,10 +19,27 @@
                 }
             });
         }
-    }" class="mb-6">
-        <ul class="space-y-4">
+    }" x-init="new Sortable($refs.lessons, {
+        group: 'lessons',
+        {{-- Este punto no se hizo en sections, para poder mover lecciones entre secciones --}}
+        {{-- Aquí hace referencia --}}
+        animation: 150,
+        handle: '.handle-lesson',
+        ghostClass: 'blue-background-class',
+        store: {
+            set: (sortable) => {
+                console.log(sortable.toArray());
+
+                Livewire.dispatch('sortLessons', {
+                    sorts: sortable.toArray(),
+                    sectionId: {{ $section->id }}
+                });
+            }
+        }
+    });" class="mb-6">
+        <ul class="space-y-4" x-ref="lessons"> {{-- Aquí esta la referencia --}}
             @foreach ($lessons as $lesson)
-                <li wire:key="lesson-{{ $lesson->id }}"> {{-- Se recomienda en livewire usar llave para correcto seguimiento --}}
+                <li wire:key="lesson-{{ $lesson->id }}" data-id="{{ $lesson->id }}"> {{-- Se recomienda en livewire usar llave para correcto seguimiento --}}
                     <div class="bg-white rounded-lg shadow-lg px-6 py-4">
                         @if ($lessonEdit['id'] == $lesson->id)
                             {{-- Formulario para editar el nombre de la lección --}}
@@ -49,7 +66,7 @@
                             </form>
                         @else
                             <div class="md:flex md:items-center">
-                                <h1 class="md:flex-1 truncate cursor-move">
+                                <h1 class="md:flex-1 truncate cursor-move handle-lesson"> {{-- handle-lesson del x-init --}}
                                     <i class="fas fa-play-circle text-blue-600"></i>
                                     Lección {{ $orderLessons->search($lesson->id) + 1 }}:
                                     {{ $lesson->name }}

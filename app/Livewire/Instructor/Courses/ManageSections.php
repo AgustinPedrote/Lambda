@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Instructor\Courses;
 
+use App\Models\Lesson;
 use App\Models\Section;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -132,6 +133,21 @@ class ManageSections extends Component
 
             $this->getSections();
         }
+    }
+
+    #[On('sortLessons')]
+    public function sortLessons($sorts, $sectionId) /* Orden y sección a la que pertenece */
+    {
+        /* dd($sorts); */
+
+        foreach ($sorts as $position => $lessonId) {
+            Lesson::find($lessonId)->update([
+                'position' => $position + 1,
+                'section_id' => $sectionId
+            ]);
+        }
+
+        $this->getSections();
     }
 
     public function render()
