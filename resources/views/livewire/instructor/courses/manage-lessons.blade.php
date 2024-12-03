@@ -65,25 +65,39 @@
                                 </div>
                             </form>
                         @else
-                            <div class="md:flex md:items-center">
-                                <h1 class="md:flex-1 truncate cursor-move handle-lesson"> {{-- handle-lesson del x-init --}}
-                                    <i class="fas fa-play-circle text-blue-600"></i>
-                                    Lección {{ $orderLessons->search($lesson->id) + 1 }}:
-                                    {{ $lesson->name }}
-                                </h1>
+                            <div x-data="{
+                                open: true {{-- Alpine --}}
+                            }">
+                                <div class="md:flex md:items-center">
+                                    <h1 class="md:flex-1 truncate cursor-move handle-lesson"> {{-- handle-lesson del x-init --}}
+                                        <i class="fas fa-play-circle text-blue-600"></i>
+                                        Lección {{ $orderLessons->search($lesson->id) + 1 }}:
+                                        {{ $lesson->name }}
+                                    </h1>
 
-                                <div class="space-x-3 md:shrink-0 md:ml-4"> {{-- Esta clase hace que no se encoja los iconos --}}
-                                    <button wire:click="edit({{ $lesson->id }})">
-                                        <i class="fas fa-edit hover:text-indigo-600"></i>
-                                    </button>
+                                    <div class="space-x-3 md:shrink-0 md:ml-4"> {{-- Esta clase hace que no se encoja los iconos --}}
+                                        <button wire:click="edit({{ $lesson->id }})">
+                                            <i class="fas fa-edit hover:text-indigo-600"></i>
+                                        </button>
 
-                                    <button x-on:click="destroyLesson({{ $lesson->id }})">
-                                        <i class="far fa-trash-alt hover:text-red-600"></i>
-                                    </button>
+                                        <button x-on:click="destroyLesson({{ $lesson->id }})">
+                                            <i class="far fa-trash-alt hover:text-red-600"></i>
+                                        </button>
 
-                                    <button>
-                                        <i class="fas fa-chevron-down hover:text-blue-600"></i>
-                                    </button>
+                                        <button x-on:click="open = !open">
+                                            <i class="hover:text-blue-600"
+                                                :class="{
+                                                    /* Clase dinámica con Alpine */
+                                                    'fas fa-chevron-up': open,
+                                                    'fas fa-chevron-down': !open,
+                                                }"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4" x-show="open" x-cloak> {{-- Alpine --}}
+                                    {{-- Componente livewire --}}
+                                    @livewire('instructor.courses.manage-lesson-content', ['lesson' => $lesson], key('section-' . $section->id . '-lesson' . $lesson->id))
                                 </div>
                             </div>
                         @endif
