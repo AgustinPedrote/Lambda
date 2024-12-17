@@ -17,8 +17,16 @@ class ManageLessonContent extends Component
     public $lesson;
 
     public $editVideo = false;
-
     public $platform = 1, $video, $url;
+
+    public $editDescription = false;
+    public $description;
+
+    /* Esta función se ejecuta cuando se carga el componente */
+    public function mount($lesson)
+    {
+        /* $this->description = $lesson->description; */
+    }
 
     /* Esta función es una combinación de rules y store en ManageLessons.php */
     public function saveVideo()
@@ -58,6 +66,14 @@ class ManageLessonContent extends Component
 
         /* Resetear valores */
         $this->reset('editVideo', 'platform', 'url');
+    }
+
+    public function saveDescription()
+    {
+        $this->lesson->description = $this->description;
+        $this->lesson->save();
+
+        $this->reset('editDescription');
     }
 
     /* El evento se recepciona aquí */
