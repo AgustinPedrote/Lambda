@@ -25,7 +25,7 @@ class ManageLessonContent extends Component
     /* Esta función se ejecuta cuando se carga el componente */
     public function mount($lesson)
     {
-        /* $this->description = $lesson->description; */
+        $this->description = $lesson->description;
     }
 
     /* Esta función es una combinación de rules y store en ManageLessons.php */

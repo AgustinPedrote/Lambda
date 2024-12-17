@@ -148,23 +148,8 @@
 
         @if ($editDescription)
             <form wire:submit="saveDescription"> {{-- Livewire --}}
-                <div x-data="{
-                    content: @entangle('description'),
-                    initEditor() {
-                        ClassicEditor.create($refs.editor)
-                            .then(editor => {
-                                editor.setData(this.content || '');
-                                editor.model.document.on('change:data', () => {
-                                    this.content = editor.getData();
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error al inicializar CKEditor:', error);
-                            });
-                    }
-                }" x-init="initEditor">
-                    <x-textarea x-ref="editor"></x-textarea>
-                </div>
+                {{-- Componente de ckeditor 5 --}}
+                <x-ckeditor wire:model="description" />
 
                 <div class="flex justify-end mt-4">
                     <x-button>
