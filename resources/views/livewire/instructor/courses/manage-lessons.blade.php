@@ -66,7 +66,7 @@
                             </form>
                         @else
                             <div x-data="{
-                                open: true {{-- Alpine --}}
+                                open: false, {{-- Alpine --}}
                             }">
                                 <div class="md:flex md:items-center">
                                     <h1 class="md:flex-1 truncate cursor-move handle-lesson"> {{-- handle-lesson del x-init --}}

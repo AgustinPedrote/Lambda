@@ -168,5 +168,11 @@
         @endif
     </div>
 
+    <hr>
 
+    <div md:space-y-2>
+        {{-- Llama al componente de Livewire --}}
+        <x-toggle label="Publicado" wire:model="is_published" />
+        <x-toggle label="Vista previa" wire:model="is_preview" />
+    </div>
 </div>

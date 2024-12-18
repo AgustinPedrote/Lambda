@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use PhpParser\Node\Stmt\If_;
 
 class ManageLessonContent extends Component
 {
@@ -22,10 +23,28 @@ class ManageLessonContent extends Component
     public $editDescription = false;
     public $description;
 
+    public $is_published, $is_preview;
+
     /* Esta función se ejecuta cuando se carga el componente */
     public function mount($lesson)
     {
         $this->description = $lesson->description;
+        $this->is_published = $lesson->is_published;
+        $this->is_preview = $lesson->is_preview;
+    }
+
+    /* por defecto. no se ejecuta la función hasta que se ejecute algún metodo en específico */
+    public function updated($property, $value)
+    {
+        if ($property == 'is_published') {
+            $this->lesson->is_published = $value;
+            $this->lesson->save();
+        }
+
+        if ($property == 'is_preview') {
+            $this->lesson->is_preview = $value;
+            $this->lesson->save();
+        }
     }
 
     /* Esta función es una combinación de rules y store en ManageLessons.php */
