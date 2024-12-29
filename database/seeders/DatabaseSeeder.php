@@ -5,7 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Category;
+use App\Models\Course;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        /* Eliminar la carpeta 'courses' */
+        Storage::deleteDirectory('courses');
+
+        /* Crea las carpetas 'courses' e 'images' ya que faker no tiene la capacidad de crear carpetas */
+        Storage::makeDirectory('courses/images');
+
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
@@ -27,5 +35,8 @@ class DatabaseSeeder extends Seeder
             LevelSeeder::class,
             PriceSeeder::class,
         ]);
+
+        /* Generar factories */
+        Course::factory(20)->create();
     }
 }
