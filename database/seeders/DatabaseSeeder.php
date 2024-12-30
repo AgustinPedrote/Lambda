@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Category;
-use App\Models\Course;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,9 +32,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LevelSeeder::class,
             PriceSeeder::class,
+            CourseSeeder::class,
         ]);
-
-        /* Generar factories */
-        Course::factory(20)->create();
     }
 }
