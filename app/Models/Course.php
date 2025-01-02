@@ -52,7 +52,8 @@ class Course extends Model
     # Relación uno a muchos (inversa)
     public function teacher()
     {
-        return $this->belongsTo(User::class);
+        //Relación es 'teacher' y modelo es 'User', da conflicto por la FK así que se la especificamos
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function level()

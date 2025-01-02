@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WelcomeController;
 use App\Models\Course;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\Http;
@@ -17,9 +18,8 @@ use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index'])
+    ->name('welcome');
 
 /* Función para pruebas */
 Route::get('prueba', function () {
