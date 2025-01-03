@@ -12,7 +12,7 @@
             CONTENIDO
         </h1>
 
-        <ul class="grid grid-cols-4 gap-6 mx-6">
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-6">
             {{-- Cursos online --}}
             <li>
                 <a href="">
@@ -91,7 +91,7 @@
                 ÚLTIMOS CURSOS
             </h1>
 
-            <ul class="grid grid-cols-4 gap-6">
+            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ($courses as $course)
                     <li>
                         <div class="bg-white rounded-lg overflow-hidden">
@@ -102,7 +102,7 @@
 
                             <div class="px-6 pt-4 pb-5">
                                 <h1 class="line-clamp-2 text-lg leading-5 min-h-[42px] mb-1"> {{-- Como máximo tenga dos líneas --}}
-                                    <a href="">
+                                    <a href="{{ route('courses.show', $course) }}">
                                         {{ $course->title }}
                                     </a>
                                 </h1>
@@ -133,7 +133,7 @@
                                     @endif
                                 </p>
 
-                                <a href="" class="btn btn-blue block w-full text-center">
+                                <a href="{{ route('courses.show', $course) }}" class="btn btn-blue block w-full text-center">
                                     Más información
                                 </a>
                             </div>

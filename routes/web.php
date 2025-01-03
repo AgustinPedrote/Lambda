@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController; //Hay dos 'CourseController, ten ojo.
 use App\Http\Controllers\WelcomeController;
 use App\Models\Course;
 use App\Models\Lesson;
@@ -21,22 +22,13 @@ use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 Route::get('/', [WelcomeController::class, 'index'])
     ->name('welcome');
 
+Route::get('courses', [CourseController::class, 'index'])
+    ->name('courses.index');
+
+Route::get('courses/{course}', [CourseController::class, 'show'])
+    ->name('courses.show');
+
 /* Función para pruebas */
 Route::get('prueba', function () {
-    $course = Course::first();
-
-    $sections = $course->sections()
-        ->with(['lessons' => function ($query) { /* Función callback */
-            $query->orderBy('position', 'asc');
-        }])
-        ->get();
-
-    /* Muestra solo la información de lessons */
-    $orderLessons = $sections->pluck('lessons')
-        ->collapse() /* Combinar las lecciones de todos los arrays en uno */
-        ->pluck('id');
-
-    return $orderLessons->search(30) + 1;
+    //
 });
-
-/* Min 9 */
