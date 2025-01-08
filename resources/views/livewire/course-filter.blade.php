@@ -31,7 +31,7 @@
                         @foreach ($categories as $category)
                             <li>
                                 <label>
-                                    <x-checkbox value="{{ $category->id }}" />
+                                    <x-checkbox wire:model.live="selectedCategories" value="{{ $category->id }}" />
                                     {{ $category->name }}
                                 </label>
                             </li>
@@ -49,7 +49,7 @@
                         @foreach ($levels as $level)
                             <li>
                                 <label>
-                                    <x-checkbox value="{{ $level->id }}" />
+                                    <x-checkbox wire:model.live="selectedLevels" value="{{ $level->id }}" />
                                     {{ $level->name }}
                                 </label>
                             </li>
@@ -57,7 +57,7 @@
                     </ul>
                 </div>
 
-                {{-- Precios --}}
+                {{-- Filtrar por precios --}}
                 <div>
                     <p class="text-lg font-semibold">
                         Precios
@@ -66,14 +66,14 @@
                     <ul class="space-y-1">
                         <li>
                             <label>
-                                <x-checkbox value="free" />
+                                <x-checkbox wire:model.live="selectedPrices" value="free" />
                                 Gratis
                             </label>
                         </li>
 
                         <li>
                             <label>
-                                <x-checkbox value="premium" />
+                                <x-checkbox wire:model.live="selectedPrices" value="premium" />
                                 Premium
                             </label>
                         </li>
@@ -82,8 +82,9 @@
             </aside>
 
             <div class="col-span-1 lg:col-span-3">
+                {{-- Buscador --}}
                 <div class="mb-12">
-                    <x-input placeholder="Buscar curso" class="w-full" />
+                    <x-input wire:model.live="search" placeholder="Buscar curso" class="w-full" />
                 </div>
 
                 {{-- Listado de cursos --}}
