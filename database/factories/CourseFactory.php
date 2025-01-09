@@ -35,6 +35,7 @@ class CourseFactory extends Factory
             'title' => $this->faker->sentence,
             'slug' => $this->faker->slug,
             'summary' => $this->faker->paragraph,
+            'description' => $this->faker->text(2000),
             'status' => 3, // Publicado
             'image_path' => $imageName ? "courses/images/{$imageName}" : null, // Asigna null si no se genera la imagen
             'user_id' => 1,
