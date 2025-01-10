@@ -129,13 +129,7 @@
                             @endif
                         </p>
 
-                        <button class="btn btn-blue w-full uppercase mb-2">
-                            Agregar al carrito
-                        </button>
-
-                        <button class="btn btn-red w-full uppercase">
-                            Comprar ahora
-                        </button>
+                        @livewire('course-enrolled', ['course' => $course])
                     </div>
 
                     {{-- Detalles del curso --}}
@@ -147,7 +141,8 @@
                         <ul class="space-y-1">
                             {{-- Para cambiar el tamaño de un icono hay que utilizar el 'inline-block' --}}
                             <li>
-                                <i class="far fa-calendar-alt inline-block w-6"></i> Última actualización {{ $course->updated_at->format('d/m/Y') }}
+                                <i class="far fa-calendar-alt inline-block w-6"></i> Última actualización
+                                {{ $course->updated_at->format('d/m/Y') }}
                             </li>
 
                             <li>
