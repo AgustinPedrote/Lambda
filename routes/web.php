@@ -30,6 +30,9 @@ Route::get('courses', [CourseController::class, 'index'])
 Route::get('courses/{course}', [CourseController::class, 'show'])
     ->name('courses.show');
 
+Route::get('courses-status/{course}', [CourseController::class, 'status'])
+    ->name('courses.status');
+
 Route::get('cart', [CartController::class, 'index'])
     ->name('cart.index');
 

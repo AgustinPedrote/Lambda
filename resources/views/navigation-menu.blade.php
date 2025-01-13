@@ -35,8 +35,23 @@
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                {{-- Carrito de la compra --}}
+                <div class="relative" x-data="{
+                    count: {{ Cart::instance('shopping')->count() }}
+                }"
+                x-on:cart-updated.window="count = $event.detail[0]"> {{-- Escuchamos el evento desde livewire --}}
+                    <a href="{{ route('cart.index') }}">
+                        <i class="fa-solid fa-cart-shopping text-xl text-gray-600"></i>
+
+                        {{-- Count es 0 y en sistema booleano es falso --}}
+                        <span x-show="count" x-text="count"
+                            class="absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-blue-100 bg-blue-500 rounded-full">
+                        </span>
+                    </a>
+                </div>
+
                 <!-- Settings Dropdown -->
-                <div class="ms-3 relative">
+                <div class="ms-4 relative">
                     @auth
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
