@@ -38,6 +38,5 @@ Route::get('cart', [CartController::class, 'index'])
 
 /* Función para pruebas */
 Route::get('prueba', function () {
-    Cart::instance('shopping');
-    return Cart::content();
+    dd(auth()->user()->courses_enrolled->contains(4));
 });

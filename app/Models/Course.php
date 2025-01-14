@@ -6,6 +6,7 @@ use App\Enums\CourseStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Course extends Model
@@ -36,15 +37,31 @@ class Course extends Model
         'published_at' => 'datetime',
     ];
 
-    # Accesor
+    # Accesor que te permite transformar un atributo de tu modelo al momento de acceder a él
     protected function image(): Attribute
     {
         return new Attribute(
             get: function () {
                 return $this->image_path ? Storage::url($this->image_path) : asset('img/no-image.jpg');
 
-                // Usar APP_URL para construir la URL correctamente
+                # Usar APP_URL para construir la URL correctamente
                 return config('app.url') . '/storage/courses/images/' . basename($this->image_path);
+            }
+        );
+    }
+
+    protected function dateOfAcquisition(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                # Formatear un valor como si fuera una fecha
+                return now()->parse(
+                    DB::table('course_user')
+                        ->where('course_id', $this->id)
+                        ->where('user_id', auth()->id())
+                        ->first()
+                        ->created_at
+                )->format('d/m/Y');
             }
         );
     }
@@ -52,7 +69,7 @@ class Course extends Model
     # Relación uno a muchos (inversa)
     public function teacher()
     {
-        //Relación es 'teacher' y modelo es 'User', da conflicto por la FK así que se la especificamos
+        # Relación es 'teacher' y modelo es 'User', da conflicto por la FK así que se la especificamos
         return $this->belongsTo(User::class, 'user_id');
     }
 
@@ -87,10 +104,10 @@ class Course extends Model
         return $this->hasMany(Section::class);
     }
 
-    //Relación muchos a muchos
+    # Relación muchos a muchos
     public function students()
     {
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')
-        ->withTimestamps();
+            ->withTimestamps();
     }
 }

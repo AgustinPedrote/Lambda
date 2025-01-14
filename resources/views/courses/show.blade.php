@@ -116,20 +116,37 @@
             <div class="col-span-1 order-1 lg:order-2">
                 <div class="bg-white rounded-lg shadow p-6"> {{-- Tarjeta --}}
                     <div class="mb-4">
-                        {{-- Precio --}}
-                        <p class="font-semibold text-2xl text-center mb-2">
-                            @if ($course->price->value == 0)
-                                <span class="text-green-500">
-                                    Gratis
-                                </span>
-                            @else
-                                <span class="text-gray-700">
-                                    {{ number_format($course->price->value, 2) }} €
-                                </span>
-                            @endif
-                        </p>
+                        {{-- Policies --}}
+                        @can('enrolled', $course)
+                            <p class="flex items-cente mb-2">
+                                <i class="fas fa-info-circle inline-block w-6 flex-shrink-0"></i>
 
-                        @livewire('course-enrolled', ['course' => $course])
+                                <span class="font-semibold leading-none"> {{-- Alinea icono y texto --}}
+                                    Adquirido el {{ $course->dateOfAcquisition }}
+                                </span>
+                            </p>
+
+                            <a href="{{ route('courses.status', $course) }}"
+                                class="btn btn-red block text-center uppercase w-full">
+                                Continuar con el curso
+                            </a>
+                        @else
+                            {{-- Precio --}}
+                            <p class="font-semibold text-2xl text-center mb-2">
+                                @if ($course->price->value == 0)
+                                    <span class="text-green-500">
+                                        Gratis
+                                    </span>
+                                @else
+                                    <span class="text-gray-700">
+                                        {{ number_format($course->price->value, 2) }} €
+                                    </span>
+                                @endif
+                            </p>
+
+                            @livewire('course-enrolled', ['course' => $course])
+                        @endcan
+
                     </div>
 
                     {{-- Detalles del curso --}}
