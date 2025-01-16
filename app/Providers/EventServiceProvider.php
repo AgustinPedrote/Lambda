@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Events\VideoUploaded;
 use App\Listeners\VideoUploaded\ProcessLessonVideo;
+use App\Listeners\Login\RestoreShoppingCart; // Importa el listener
+use Illuminate\Auth\Events\Login; // Importa el evento Login
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,9 +25,14 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
 
-        // Registra el evento y el oyente
+        // Evento para videos subidos
         VideoUploaded::class => [
             ProcessLessonVideo::class,
+        ],
+
+        // Evento de inicio de sesión
+        Login::class => [
+            RestoreShoppingCart::class, // Listener para restaurar el carrito
         ],
     ];
 

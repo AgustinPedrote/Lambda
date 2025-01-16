@@ -26,6 +26,11 @@ class CourseEnrolled extends Component
             ]
         ]);
 
+        /* Alberga los productos del carrito en la tabla */
+        if (auth()->check()) {
+            Cart::store(auth()->id()); //Identificador
+        }
+
         /* Actualiza icono carrito */
         $this->dispatch('cart-updated', Cart::count());
     }
@@ -37,6 +42,11 @@ class CourseEnrolled extends Component
 
         if ($itemCart) {
             Cart::remove($itemCart->rowId);
+        }
+
+        /* Alberga los productos del carrito en la tabla */
+        if (auth()->check()) {
+            Cart::store(auth()->id()); //Identificador
         }
 
         /* Actualiza icono carrito */

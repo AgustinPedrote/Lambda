@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController; //Hay dos 'CourseController, ten ojo.
 use App\Http\Controllers\WelcomeController;
 use App\Models\Course;
@@ -36,7 +37,10 @@ Route::get('courses-status/{course}', [CourseController::class, 'status'])
 Route::get('cart', [CartController::class, 'index'])
     ->name('cart.index');
 
+Route::get('checkout', [CheckoutController::class, 'index'])
+    ->name('checkout.index');
+
 /* Función para pruebas */
 Route::get('prueba', function () {
-    dd(auth()->user()->courses_enrolled->contains(4));
+    //
 });
