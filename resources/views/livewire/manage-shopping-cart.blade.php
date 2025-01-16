@@ -3,18 +3,18 @@
         Carrito de compras
     </h1>
 
-    <div class="grid lg:grid-cols-5 gap-12">
-        <div class="lg:col-span-3">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-12">
+        <div class="order-2 lg:order-1 col-span-1 lg:col-span-3">
             <div class="bg-white rounded-lg shadow-lg p-6 mb-2">
                 <ul class="space-y-4">
                     @forelse (Cart::instance('shopping')->content() as $item)
-                        <li class="flex">
-                            <figure class="w-40 shrink-0"> {{-- Para que la imagen no cambie de tamaño --}}
+                        <li class="lg:flex">
+                            <figure class="w-full lg:w-40 lg:shrink-0"> {{-- Para que la imagen no cambie de tamaño --}}
                                 <img src="{{ $item->options->image }}"
                                     class="w-full aspect-video object-conver rounded-lg ">
                             </figure>
 
-                            <div class="flex-1 ml-4 overflow-hidden">
+                            <div class="lg:flex-1 lg:ml-4 overflow-hidden">
                                 <h2 class="font-semibold truncate"> {{-- Para que no ocupe mas de una línea --}}
                                     <a href="">
                                         {{ $item->name }}
@@ -52,7 +52,7 @@
             @endif
         </div>
 
-        <div class="lg:col-span-2">
+        <div class="order-1 lg:order-2 col-span-1 lg:col-span-2">
             <div class="bg-white rounded-lg shadow-lg p-6">
                 <h2 class="text-xl font-semibold mb-2">
                     Resumen
