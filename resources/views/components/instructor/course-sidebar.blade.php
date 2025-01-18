@@ -3,7 +3,7 @@
 @php
     $links = [
         [
-            'name' => 'Información del cruso',
+            'name' => 'Información del curso',
             'url' => route('instructor.courses.edit', $course),
             'active' => request()->routeIs('instructor.courses.edit'),
         ],

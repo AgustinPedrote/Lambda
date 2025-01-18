@@ -25,7 +25,7 @@
 <body class="font-sans antialiased">
     <x-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="flex flex-col min-h-screen bg-gray-100"> {{-- Flex para empujar el footer hacia abajo --}}
         @livewire('navigation-menu')
 
         <!-- Page Heading -->
@@ -38,7 +38,7 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="flex-grow"> {{-- Empuja el footer hace abajo --}}
             {{ $slot }}
         </main>
 
@@ -48,6 +48,8 @@
     @stack('modals')
 
     @livewireScripts
+
+    @stack('js')
 </body>
 
 </html>

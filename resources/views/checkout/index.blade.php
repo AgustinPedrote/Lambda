@@ -52,14 +52,25 @@
                         </p>
                     </div>
 
+                    {{-- PayPal --}}
                     <div class="mt-4">
-                        <button class="btn btn-red block w-full text-center uppercase disabled:opacity-50">
-                            Procesar pago
-                        </button>
+
+                        <div id="paypal-button-container"></div>
+
                     </div>
                 </div>
             </div>
         </div>
     </x-container>
-</x-app-layout>
 
+    @push('js')
+        <script src="https://www.paypal.com/sdk/js?client-id={{ config('services.paypal.client_id') }}&currency=EUR"
+            data-sdk-integration-source="developer-studio"></script>
+
+        <script>
+            paypal.Buttons({
+
+            }).render('#paypal-button-container');
+        </script>
+    @endpush
+</x-app-layout>

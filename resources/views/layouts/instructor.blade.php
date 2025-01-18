@@ -27,7 +27,7 @@
 <body class="font-sans antialiased">
     <x-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="flex flex-col min-h-screen bg-gray-100">
         @include('layouts.includes.instructor.navigation-menu')
 
         <!-- Page Heading -->
@@ -40,7 +40,7 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="flex-grow">
             {{ $slot }}
         </main>
 
