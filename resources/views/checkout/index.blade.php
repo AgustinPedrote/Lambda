@@ -69,7 +69,17 @@
 
         <script>
             paypal.Buttons({
-
+                createOrder() { //Se encarga de hacer una petición al servidor
+                    return axios.post("{{ route('checkout.createPaypalOrder') }}")
+                        .then(res => { //Respuesta
+                            return res.data.id;
+                        }).catch(err => { //Capturamos posible error
+                            console.log(err);
+                        });
+                },
+                onApprove(data) { //Se ejecuta en el caso de que el pago se haya realizado correctamente
+                    console.log(data.orderID);
+                }
             }).render('#paypal-button-container');
         </script>
     @endpush

@@ -40,6 +40,9 @@ Route::get('cart', [CartController::class, 'index'])
 Route::get('checkout', [CheckoutController::class, 'index'])
     ->name('checkout.index');
 
+Route::post('checkout/createPaypalOrder', [CheckoutController::class, 'createPaypalOrder'])
+->name('checkout.createPaypalOrder');
+
 /* Función para pruebas */
 Route::get('prueba', function () {
     //
