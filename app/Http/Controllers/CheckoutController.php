@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use CodersFree\Shoppingcart\Facades\Cart;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -60,6 +62,42 @@ class CheckoutController extends Controller
         )->json();
 
         return $response;
+    }
+
+    public function capturePaypalOrder(Request $request)
+    {
+        $orderId = $request->orderID;
+
+        $access_token = $this->generateAccessToken();
+        $url = config('services.paypal.url') . "/v2/checkout/orders/{$orderId}/capture";
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $access_token,
+        ])->post(
+            $url,
+            [
+                'intent' => 'CAPTURE',
+            ],
+        )->json();
+
+        if (!isset($response['status']) || $response['status'] !== 'COMPLETED') {
+            throw new Exception('Error al capturar la orden de PayPal: ' . json_encode($response));
+        }
+
+        /* Matriculación de usuarios */
+        Cart::instance('shopping');
+
+        foreach (Cart::content() as $item) {
+            $course = Course::find($item->id);
+            $course->students()->attach(auth()->id());
+        }
+
+        /* Destruir el carrito */
+        Cart::destroy();
+
+        /* Actualizar la base de datos */
+        Cart::store(auth()->id());
     }
 
     public function generateAccessToken()

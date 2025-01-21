@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController; //Hay dos 'CourseController, ten ojo.
 use App\Http\Controllers\WelcomeController;
+use App\Http\Middleware\CheckCartItems;
 use App\Models\Course;
 use App\Models\Lesson;
 use CodersFree\Shoppingcart\Facades\Cart;
@@ -38,10 +39,18 @@ Route::get('cart', [CartController::class, 'index'])
     ->name('cart.index');
 
 Route::get('checkout', [CheckoutController::class, 'index'])
+    ->middleware(CheckCartItems::class)
     ->name('checkout.index');
 
 Route::post('checkout/createPaypalOrder', [CheckoutController::class, 'createPaypalOrder'])
-->name('checkout.createPaypalOrder');
+    ->name('checkout.createPaypalOrder');
+
+Route::post('checkout/capturePaypalOrder', [CheckoutController::class, 'capturePaypalOrder'])
+    ->name('checkout.capturePaypalOrder');
+
+Route::get('gracias', function () {
+    return view('gracias');
+})->name('gracias');
 
 /* Función para pruebas */
 Route::get('prueba', function () {

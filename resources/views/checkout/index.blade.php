@@ -78,7 +78,14 @@
                         });
                 },
                 onApprove(data) { //Se ejecuta en el caso de que el pago se haya realizado correctamente
-                    console.log(data.orderID);
+                    return axios.post("{{ route('checkout.capturePaypalOrder') }}", {
+                            orderID: data.orderID
+                        })
+                        .then(function(res) {
+                            window.location.href = "{{ route('gracias') }}"
+                        }).catch(err => {
+                            console.log(err);
+                        });
                 }
             }).render('#paypal-button-container');
         </script>
