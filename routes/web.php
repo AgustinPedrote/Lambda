@@ -29,6 +29,10 @@ Route::get('/', [WelcomeController::class, 'index'])
 Route::get('courses', [CourseController::class, 'index'])
     ->name('courses.index');
 
+Route::get('courses/my-courses', [CourseController::class, 'myCourses'])
+    ->middleware('auth')
+    ->name('courses.myCourses');
+
 Route::get('courses/{course}', [CourseController::class, 'show'])
     ->name('courses.show');
 

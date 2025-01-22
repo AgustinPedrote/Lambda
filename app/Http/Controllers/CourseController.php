@@ -17,6 +17,13 @@ class CourseController extends Controller
         return view('courses.show', compact('course'));
     }
 
+    public function myCourses()
+    {
+        $courses = auth()->user()->courses_enrolled;
+
+        return view('courses.my-courses' , compact('courses'));
+    }
+
     public function status()
     {
         return view('courses.status');

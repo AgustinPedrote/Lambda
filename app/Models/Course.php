@@ -37,6 +37,12 @@ class Course extends Model
         'published_at' => 'datetime',
     ];
 
+    /* Utiliza el slug en la URI */
+    public function getRouteKeyName():string
+    {
+        return 'slug';
+    }
+
     # Accesor que te permite transformar un atributo de tu modelo al momento de acceder a él
     protected function image(): Attribute
     {

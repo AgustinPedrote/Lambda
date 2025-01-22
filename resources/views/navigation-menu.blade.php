@@ -38,8 +38,8 @@
                 {{-- Carrito de la compra --}}
                 <div class="relative" x-data="{
                     count: {{ Cart::instance('shopping')->count() }}
-                }"
-                x-on:cart-updated.window="count = $event.detail[0]"> {{-- Escuchamos el evento desde livewire --}}
+                }" x-on:cart-updated.window="count = $event.detail[0]">
+                    {{-- Escuchamos el evento desde livewire --}}
                     <a href="{{ route('cart.index') }}">
                         <i class="fa-solid fa-cart-shopping text-xl text-gray-600"></i>
 
@@ -83,8 +83,14 @@
                                     {{ __('Manage Account') }}
                                 </div>
 
+                                {{-- Perfil --}}
                                 <x-dropdown-link href="{{ route('profile.show') }}">
                                     {{ __('Profile') }}
+                                </x-dropdown-link>
+
+                                {{-- Mis cursos --}}
+                                <x-dropdown-link href="{{ route('courses.myCourses') }}">
+                                    Mis cursos
                                 </x-dropdown-link>
 
                                 <div class="border-t border-gray-200"></div>
@@ -177,6 +183,10 @@
                     <!-- Account Management -->
                     <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link href="{{ route('courses.myCourses') }}" :active="request()->routeIs('profile.show')">
+                        Mis cursos
                     </x-responsive-nav-link>
 
                     <!-- Authentication -->
