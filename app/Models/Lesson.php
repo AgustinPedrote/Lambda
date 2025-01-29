@@ -37,11 +37,17 @@ class Lesson extends Model
         'is_processed' => 'boolean',
     ];
 
+    /* Utiliza el slug en la URI */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function image(): Attribute /* Atributo */
     {
         return new Attribute(
-            get: function(){
-                if ($this->platform == 1){
+            get: function () {
+                if ($this->platform == 1) {
                     return Storage::url($this->image_path);
                 }
 
@@ -54,5 +60,13 @@ class Lesson extends Model
     public function section()
     {
         return $this->belongsTo(Section::class);
+    }
+
+    # Relación muchos a muchos
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'course_lesson_user')
+            ->withPivot(['course_id', 'current', 'completed'])
+            ->withTimestamps();
     }
 }
