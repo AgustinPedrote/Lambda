@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +29,21 @@ class CourseController extends Controller
 
     public function status(Course $course, Lesson $lesson = null)
     {
-        /* Si no tenemos una lección va a buscar la primera del curso en el orden que la hayamos dejado*/
+        /* Recuperar las lecciones en orden */
+        $sections = Section::where('course_id', $course->id)
+            ->whereHas('lessons', function ($query) {
+                $query->where('is_published', true);
+            })
+            ->with('lessons', function ($query) {
+                $query->where('is_published', true)
+                    ->orderBy('position', 'asc');
+            })
+            ->orderBy('position', 'asc')
+            ->get();
+
+        $lessons = $sections->pluck('lessons')->collapse();
+
+        /* Si no hay lección seleccionada se encuentra la primera lección */
         if (!$lesson) {
             $lesson = Lesson::whereHas('section', function ($query) use ($course) {
                 $query->where('course_id', $course->id);
@@ -39,20 +54,13 @@ class CourseController extends Controller
 
             /* Si no ha visualizado ninguna lección que se muestre la primera */
             if (!$lesson) {
-                $course->load(['sections' => function ($query) {
-                    $query->orderBy('position', 'asc')
-                        ->with('lessons', function ($query) {
-                            $query->orderBy('position', 'asc')
-                                ->where('is_published', true);
-                        });
-                }]);
-
-                $lesson = $course->sections->pluck('lessons')->collapse()->first();
+                $lesson = $lessons->first();
             }
 
             return redirect()->route('courses.status', [$course, $lesson]);
         }
 
+        /* Se lleva control de la lección visualizada */
         if (auth()->check()) {
             DB::table('course_lesson_user')
                 ->where('user_id', auth()->id())
@@ -76,6 +84,6 @@ class CourseController extends Controller
                 );
         }
 
-        return view('courses.status', compact('course', 'lesson'));
+        return view('courses.status', compact('course', 'sections', 'lessons', 'lesson'));
     }
 }
